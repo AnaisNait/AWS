@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 
@@ -8,17 +8,19 @@ const SupprimerBenef = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { enqueueSnackbar } = useSnackbar();
+    const [token, setToken] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
+        const storedToken = localStorage.getItem('token');
+        if (!storedToken) {
             enqueueSnackbar('Vous devez être connecté pour effectuer cette action', { variant: 'error' });
             navigate('/login'); // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
+        } else {
+            setToken(storedToken);
         }
     }, [enqueueSnackbar, navigate]);
 
     const handleSupprimerBenef = () => {
-        if (token) {
         axios
             .delete(`http://localhost:5555/beneficiaire/supprimerBenef/${id}`, {
                 headers: {
@@ -33,7 +35,6 @@ const SupprimerBenef = () => {
                 enqueueSnackbar('Erreur lors de la suppression du bénéficiaire', { variant: 'error' });
                 console.log(error);
             });
-        }
     };
 
     return (

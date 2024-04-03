@@ -4,6 +4,33 @@ import nodemailer from 'nodemailer';
 import validator from 'validator';
 import User from "../models/user.js";
 
+export const afficherUser = async (request, response) => {
+    try {
+        // Extraire le token JWT de l'en-tête d'autorisation
+        const token = request.headers.authorization.split(' ')[1];
+        
+        // Vérifier et décoder le token JWT pour obtenir l'identifiant de l'utilisateur
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decodedToken.userId;
+        
+        // Rechercher l'utilisateur connecté en utilisant l'identifiant extrait du token JWT
+        const user = await User.findById(userId);
+
+        // Vérifier si l'utilisateur existe
+        if (!user) {
+            return response.status(404).json({ message: "L'utilisateur n'existe pas." });
+        }
+
+        // Retourner les données de l'utilisateur trouvé
+        response.status(200).json({
+            data: user
+        });
+    } catch (error) {
+        // En cas d'erreur, renvoyer un message d'erreur
+        response.status(500).json({ error: error.message });
+    }
+}
+
 function sendEmail({ email, firstName, lastName }) {
     return new Promise((resolve, reject) => {
         var transporter = nodemailer.createTransport({
@@ -43,9 +70,6 @@ export const register = async (request, response) => {
             return response.status(400).json({ error: "Tous les champs doivent être remplis" });
         }
         // // Valider l'email
-        // if (!isEmail(email)) {
-        //     return response.status(400).json({ error: "L'email fourni n'est pas valide" });
-        // }
 
         // // Vérifier que l'email et la vérification de l'email correspondent
         if (email !== verifyEmail) {
@@ -151,7 +175,7 @@ export const login = async (request, response) => {
         }
 
         // Si l'utilisateur et le mot de passe sont corrects, générer un token JWT qui expire dans 10 minutes
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '10m' });
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30m' });
 
         console.log(token)
         // Envoyer une réponse avec un message de bienvenue, les détails de l'utilisateur et le token JWT

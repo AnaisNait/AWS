@@ -32,12 +32,8 @@ const DetailBenef = () => {
             <h1 className='text-3xl my-4'>Détails du bénéficiaire</h1>
             <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
                 <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>Nom</span>
-                    <span>{benef.firstName}</span>
-                </div>
-                <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>Prénom</span>
-                    <span>{benef.lastName}</span>
+                    <span className='text-xl mr-4 text-gray-500'>le nom prénom ou raison sociale</span>
+                    <span>{benef.nom}</span>
                 </div>
                 <div className='my-4'>
                     <span className='text-xl mr-4 text-gray-500'>IBAN</span>

@@ -39,8 +39,7 @@ const Beneficiaire = () => {
                 <thead>
                     <tr>
                         <th className='border border-slate-600 rounded-md'>No</th>
-                        <th className='border border-slate-600 rounded-md'>Nom</th>
-                        <th className='border border-slate-600 rounded-md'>Prénom</th>
+                        <th className='border border-slate-600 rounded-md'>le nom prénom ou raison sociale</th>
                         <th className='border border-slate-600 rounded-md'>IBAN</th>
                         <th className='border border-slate-600 rounded-md'>ACTION</th>
                         
@@ -50,8 +49,7 @@ const Beneficiaire = () => {
                     {benefs.map((benef, index) => (
                         <tr key={benef._id} className='h-8'>
                             <td className='border border-slate-700 rounded-md text-center'>{index + 1}</td>
-                            <td className='border border-slate-700 rounded-md text-center'>{benef.firstName}</td>
-                            <td className='border border-slate-700 rounded-md text-center'>{benef.lastName}</td>
+                            <td className='border border-slate-700 rounded-md text-center'>{benef.nom}</td>
                             <td className='border border-slate-700 rounded-md text-center'>{benef.iban}</td>
                             <td className='border border-slate-700 rounded-md text-center'>
                                 <div className='flex justify-center gap-x-4'>

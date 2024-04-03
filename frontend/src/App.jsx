@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './views/Home';
 import Login from "./views/auth/login";
 import Register from './views/auth/register';
+import AfficherUser from "./views/auth/user";
 
 import AjouterBenef from "./views/beneficiaire/ajouterBenef";
 import Beneficiaire from './views/beneficiaire/beneficiaire';
@@ -23,6 +24,7 @@ const App = () => {
       <Route path='/' element={<Home />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/user' element={<AfficherUser />} />
 
       <Route path='/beneficiaire' element={<Beneficiaire />} />
       <Route path='/ajouterBenef' element={<AjouterBenef />} />

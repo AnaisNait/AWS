@@ -57,6 +57,7 @@ const Solde = () => {
                             </tr>
                         ))
                     )}
+
                 </tbody>
             </table>
             <LogoutButton />

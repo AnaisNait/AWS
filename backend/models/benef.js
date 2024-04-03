@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const benefSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
+    nom: {
         type: String,
         required: true
     },

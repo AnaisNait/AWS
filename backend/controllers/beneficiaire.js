@@ -44,7 +44,7 @@ export const detailBenef = async (request, response) => {
 
 export const ajouterBenef = async (request, response) => {
     try {
-        const { firstName, lastName, iban } = request.body;
+        const { nom, iban } = request.body;
         
         // Vérifier si l'IBAN est valide
         if (!IBAN.isValid(iban)) {
@@ -60,8 +60,7 @@ export const ajouterBenef = async (request, response) => {
         
         // Poursuivre avec l'ajout du bénéficiaire
         const newBenef = new Benef({
-            firstName,
-            lastName,
+            nom,
             iban,
             utilisateur: userId // Assigner l'identifiant de l'utilisateur au bénéficiaire
         });

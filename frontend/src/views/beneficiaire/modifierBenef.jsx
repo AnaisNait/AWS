@@ -5,8 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 
 const ModifierBenef = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [nom, setNom] = useState('');
     const [iban, setIban] = useState('');
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
@@ -22,9 +21,8 @@ const ModifierBenef = () => {
                 }
             })
             .then((response) => {
-                const { firstName, lastName, iban } = response.data;
-                setFirstName(firstName);
-                setLastName(lastName);
+                const { nom, iban } = response.data;
+                setNom(nom);
                 setIban(iban);
             })
             .catch((error) => {
@@ -36,8 +34,7 @@ const ModifierBenef = () => {
 
     const handleModifierBenef = () => {
         const data = {
-            firstName,
-            lastName,
+            nom,
             iban,
         };
         if (token) {
@@ -64,21 +61,12 @@ const ModifierBenef = () => {
             <h1 className='text-3xl my-4'>Modifier un bénéficiaire</h1>
             <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
                 <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Nom</label>
+                    <label className='text-xl mr-4 text-gray-500'>Renseigner le nom prénom ou raison sociale</label>
                     <input
                         type='text'
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={nom}
+                        onChange={(e) => setNom(e.target.value)}
                         className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Prénom</label>
-                    <input
-                        type='text'
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
                     />
                 </div>
                 <div className='my-4'>
