@@ -1,42 +1,663 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+header .navbar {
+	padding: 20px 0px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #44566c;
+  color: white;
+}
+
+p {
+	margin-bottom: 0px;
+	font-size: 14px;
+	color: #666666;
+	line-height: 30px;
+}
+
+a {
+	text-decoration: none!important;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	margin: 0px;
+} 
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.logo-text {
+  float: 	left;
+	margin-top: 12px;
+  outline: none;
+}
+
+.navbar .logo-text h2 {
+	color: white;
+	text-transform: uppercase;
+	font-size: 24px;
+	font-weight: 700;
+	-webkit-transition: all .3s ease 0s;
+    -moz-transition: all .3s ease 0s;
+    -o-transition: all .3s ease 0s;
+    transition: all .3s ease 0s;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+  align-items: center;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 50px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+nav ul li:last-child {
+  margin-right: 30px; /* Supprimez l'espace à droite du dernier élément */
+}
+
+.nav-item .filled-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ececec; /* Nouvelle couleur de fond du bouton */
+  color: black; /* Couleur du texte du bouton */
+  text-decoration: none; /* Supprimer le soulignement du texte */
+  border-radius: 20px; /* Coins arrondis (plus le nombre est grand, plus les coins seront arrondis) */
+  font-size: 14px; /* Taille du texte du bouton */
+}
+
+.work-hours {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  background-color: #2f435e; 
+  color: white; 
+  padding: 10px; 
+}
+
+.work-hours svg {
+  color: white; 
+}
+
+.work-hours span {
+  margin: 0 10px; 
+}
+
+.background-image {
+  background-image: url('/public/slide_01.jpg'); /* Chemin relatif depuis la racine de votre application */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.text-container h2 {
+  font-size: 36px; /* Taille du titre */
+  color: white; /* Couleur du texte */
+}
+
+.text-container .filled-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ececec; /* Nouvelle couleur de fond du bouton */
+  color: black; /* Couleur du texte du bouton */
+  text-decoration: none; /* Supprimer le soulignement du texte */
+  border-radius: 20px; /* Coins arrondis (plus le nombre est grand, plus les coins seront arrondis) */
+  font-size: 16px; /* Taille du texte du bouton */
+  margin-top: 20px; /* Marge supérieure */
+}
+.text-container {
+  position: absolute; /* Positionnement absolu par rapport au conteneur parent */
+  top: 50%; /* Alignement vertical au centre */
+  left: 50%; /* Alignement horizontal au centre */
+  transform: translate(-50%, -50%); /* Décalage de moitié de la taille du conteneur pour le centrage */
+  text-align: center; /* Alignement du texte au centre */
+}
+
+.more-info .left-image img {
+  width: 40%;
+  margin: 0 auto; /* Centrage horizontal de l'image */
+  display: block;
+}
+
+.more-info .more-info-content {
+  background-color: #f7f7f7;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; /* Centrage horizontal des titres */
+}
+
+.more-info .right-content h2 {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 35px;
+  text-align: center; /* Centrage horizontal des titres */
+}
+
+.more-info .right-content span {
+	text-transform: uppercase;
+	font-size: 15px;
+	color: #666;
+	letter-spacing: 1px;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.more-info .right-content {
+	padding: 45px 45px 45px 30px;
+}
+
+.more-info .right-content em {
+	font-style: normal;
+	color: #2f435e;
+}
+
+/* Ajout pour les sections suivantes (services et footer) */
+.services {
+  margin-top: 140px;
+  text-align: center; /* Centrer horizontalement les éléments */
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrer horizontalement les éléments */
+  margin-bottom: 40px; /* Espacement entre les éléments */
+}
+
+.service-item img {
+  width: 280px; /* Ajustez la largeur de l'image selon vos besoins */
+  height: auto; /* Pour conserver le ratio hauteur/largeur */
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.service-item .down-content {
+  background-color: #f7f7f7;
+  padding: 30px;
+}
+
+.service-item .down-content h4 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.25px;
+  margin-bottom: 15px;
+}
+
+.service-item .down-content p {
+  margin-bottom: 20px;
+}
+
+.section-heading h2{
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 35px;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.section-heading em{
+  font-style: normal;
+	color: #2f435e;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Nous contacter */
+.contact-form {
+  margin-top: 140px;
+  padding: 40px 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.contact-form .section-heading {
+  text-align: center;
+}
+
+.contact-form h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.contact-form form {
+  background-color: #f7f7f7;
+  padding: 30px;
+}
+
+.contact-form fieldset {
+  margin-bottom: 20px;
+}
+
+.contact-form input[type="text"],
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.contact-form textarea {
+  height: 150px;
+}
+
+.contact-form button {
+  padding: 10px 20px;
+  background-color: #44566c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #34445a;
+}
+
+/* page client */
+
+.page-heading {
+text-align: center;
+background-image: url(../public/image.png);
+background-position: center center;
+background-repeat: no-repeat;
+background-size: cover;
+padding: 230px 0px 150px 0px;
+}
+
+.page-heading h1 {
+text-transform: capitalize;
+font-size: 36px;
+font-weight: 700;
+letter-spacing: 2px;
+margin-bottom: 18px;
+}
+
+.page-heading span {
+font-size: 15px;
+text-transform: uppercase;
+letter-spacing: 1px;
+color: #fff;
+display: block;
+}
+
+/*page client: formulaire d'inscription */
+.vh-100 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .card {
-  padding: 2em;
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-.read-the-docs {
-  color: #888;
+.genre-options .form-check-inline {
+  display: inline-block;
+}
+
+.text-black {
+  color: #201b22;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.text-center h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #2f435e; /* Couleur bleue */
+  font-family: Arial, sans-serif; /* Changer la police */
+}
+
+.form-check-input[type="radio"]:checked + .form-check-label::before {
+  background-color: #2f435e;
+}
+
+.form-outline .form-label {
+  color: #201b22;
+}
+
+.form-check-label a {
+  color: #2f435e;
+}
+
+.bouton {
+  background-color: #2f435e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 20px;
+  font-family: Arial, sans-serif; /* Changer la police */
+  display: block; /* Pour centrer le bouton */
+  margin: 0 auto; /* Pour centrer le bouton */
+}
+
+.bouton:hover {
+  background-color: #44566c;
+}
+#inscriptionForm {
+  text-align: center; /* Centrage horizontal des éléments */
+  margin: auto; /* Centrage vertical */
+  max-width: 600px; /* Largeur maximale du formulaire */
+  padding: 20px; /* Rembourrage */
+}
+
+#inscriptionForm .h1 {
+  font-size: 36px; /* Taille du texte */
+  font-weight: 600; /* Poids de la police */
+  color: #2f435e; /* Couleur du texte */
+}
+
+#inscriptionForm .form-group {
+  margin-bottom: 20px; /* Espacement entre les groupes de champ */
+}
+
+#inscriptionForm label {
+  display: block; /* Affichage des labels en bloc */
+  font-weight: bold; /* Poids de la police */
+  margin-bottom: 5px; /* Espacement entre les labels et les champs */
+}
+
+#inscriptionForm input[type="text"],
+#inscriptionForm input[type="email"],
+#inscriptionForm input[type="password"],
+#inscriptionForm input[type="radio"],
+#inscriptionForm input[type="checkbox"] {
+  width: 100%; /* Largeur des champs de saisie */
+  padding: 10px;
+}
+
+/* fin de la page client */ 
+
+/*Mon compte page */ 
+.monCompte-image {
+  background-image: url('/public/page-heading-bg.jpg'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 50vh;
+}
+
+.monCompte-title h2 {
+  font-size: 36px; 
+  color: white; 
+}
+
+.monCompte-title {
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  text-align: center; 
+}
+
+/* box solde */ 
+
+.balance-box {
+  background-color: #2f435e; /* Couleur de fond bleue */
+  color: #fff; /* Couleur du texte blanc */
+  border-radius: 10px; /* Coins arrondis */
+  padding: 20px; /* Espacement interne */
+  text-align: center; /* Centrage du contenu */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  max-width: 400px; /* Largeur maximale de la boîte */
+  margin: 0 auto; /* Centrage horizontal */
+}
+
+/*effectuer un virement popup */
+.effectuer-virement-button {
+  background-color: #2f435e;
+  color: white; /* Couleur du texte */
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.effectuer-virement-button:hover {
+  background-color: #44566c; /* Changement de couleur au survol */
+}
+
+.modal-title{
+  color: #2f435e;
+}
+
+.modal-content {
+  background-color: #ececec; /* Couleur de fond */
+  border-radius: 10px; /* Coins arrondis */
+}
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 50px;
+  border: 1px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+.modal-body {
+  padding: 30px; /* Rembourrage */
+}
+
+.modal-footer {
+  padding: 20px 30px; /* Rembourrage haut et bas */
+  justify-content: center; /* Centrer horizontalement les boutons */
+  display: flex;
+}
+
+.modal-footer button {
+  margin: 0 10px; /* Ajouter une marge horizontale entre les boutons */
+}
+
+.modal-body .form-group {
+  margin-bottom: 20px; /* Espacement entre les groupes de formulaire */
+}
+
+.modal-body label {
+  font-weight: bold; /* Texte en gras */
+  color: black; /* Couleur du texte */
+}
+
+.modal-body span {
+  color: #4b5e65; /* Couleur du texte */
+}
+
+/* Styles pour les champs et labels */
+.form-control {
+  padding: 20px; /* Rembourrage */
+  font-size: 16px; /* Taille de police */
+  border-radius: 8px; /* Coins arrondis */
+  border: 1px solid #ccc; /* Bordure */
+}
+
+.form-outline {
+  margin-bottom: 20px; /* Espace en bas */
+  display: flex;
+  flex-direction: column-reverse; /* Inverser l'ordre des éléments enfants */
+}
+
+.form-label {
+  margin-bottom: 10px; /* Espace entre le label et le champ */
+}
+/* Styles pour les boutons "Poursuivre" et "Annuler" */
+.filled-button {
+  background-color: #2f435e;
+  color: #ececec;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filled-button-secondary {
+  background-color: #4b5e65;
+  color: #ececec;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px; /* Ajout d'espace entre les boutons */
+}
+
+.modal-header .close {
+  display: none;
+}
+/*fin page compte */
+
+
+/* début page connexion */
+.principal-container {
+  width: 90%;
+  max-width: 600px; /* Largeur maximale de la fenêtre */
+  margin: auto; /* Centrer horizontalement */
+}
+
+.formControl {
+  padding: 12px; /* Ajuster la taille du rembourrage des champs */
+  font-size: 16px; /* Ajuster la taille de la police des champs */
+  border-radius: 8px; /* Coins arrondis */
+  border: 1px solid #ccc; /* Bordure */
+}
+
+.form-outline {
+    margin-bottom: 20px;
+    padding-bottom: 10px; 
+  }
+/*  menu */
+.menu {
+  width: 200px; /* Largeur du menu */
+  background-color: #ececec;
+  padding: 20px;
+  display: flex; /* Utiliser flexbox */
+  flex-direction: column; /* Disposition en colonne */
+  align-items: flex-start; /* Aligner les éléments sur le côté gauche */
+  min-height: 100vh; /* Hauteur minimale de la vue à 100% de la hauteur de la fenêtre */
+}
+
+.content {
+  flex: 1; /* Le contenu prendra tout l'espace restant */
+  background-color: #f0f0f0; /* Couleur de fond pour la zone de contenu */
+  padding: 20px;
+}
+
+.menu button {
+  display: block;
+  background-color: #ececec;
+  color: #4b5e65;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px; /* Espacement entre les boutons */
+  width: 100%;
+}
+
+.menu button:hover {
+  background-color: #201b22;
+  color: #ececec;
+}
+
+.transaction-table {
+  background-color: #2f435e;
+  color: #ececec;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.transaction-table table {
+  width: 100%;
+}
+
+.transaction-table th,
+.transaction-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.transaction-table th {
+  background-color: #44566c;
+}
+
+.transaction-table tbody tr:nth-child(even) {
+  background-color: #44566c;
+}
+
+.transaction-table tbody tr:nth-child(odd) {
+  background-color: #2f435e;
+}
+
+.transaction-table tbody tr:hover {
+  background-color: #4b5e65;
+}
+
+.compte-container {
+  display: flex; /* Utiliser un modèle de boîte flexible */
+}
+
+.compte-footer{
+  position: fixed; /* Position fixe */
+  left: 0; /* Alignement à gauche */
+  bottom: 0; /* Alignement en bas */
+  width: 100%; 
+  background-color: #2f435e;
+  color: white;
+  padding: 20px; 
+  text-align: center;
+}
+/* fin page connexion */
+
+footer {
+  background-color: #2f435e;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  position: relative; /* Ajout pour le positionnement relatif */
+}
+
+footer p {
+  margin: 0; /* Réinitialisation de la marge */
 }
