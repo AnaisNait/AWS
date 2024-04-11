@@ -3,52 +3,65 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
 
+// Composant DetailBenef
 const DetailBenef = () => {
+    // Déclaration de l'état pour stocker les détails du bénéficiaire
     const [benef, setBenef] = useState({});
-    const { id } = useParams();
-    const token = localStorage.getItem('token');
+    const { id } = useParams(); // Récupérer l'identifiant du bénéficiaire depuis les paramètres d'URL
+    const token = localStorage.getItem('token'); // Récupérer le token JWT du stockage local
 
+    // Effet pour charger les détails du bénéficiaire au chargement du composant ou lorsque l'identifiant du bénéficiaire change
     useEffect(() => {
-        if (token) {
-        axios
-            .get(`http://localhost:5555/beneficiaire/detailBenef/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Inclure le token dans l'en-tête de la requête
-                },
-            })
-
-            .then((response) => {
-                setBenef(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        if (token) { // Vérifier si le token existe avant de faire la requête
+            axios
+                .get(`http://localhost:5555/beneficiaire/detailBenef/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Inclure le token dans l'en-tête de la requête
+                    },
+                })
+                .then((response) => {
+                    setBenef(response.data); // Mettre à jour l'état avec les détails du bénéficiaire
+                })
+                .catch((error) => {
+                    console.log(error); // En cas d'erreur, log l'erreur dans la console
+                });
         }
-    }, [id]);
+    }, [id]); // Exécuter l'effet uniquement lorsque l'identifiant du bénéficiaire change
 
     return (
-        <div className='p-4'>
+        <div className="modal fade" id="profilModal" tabIndex="-1" role="dialog" aria-labelledby="profilModalLabel" aria-hidden="true">
             <BackButton />
-            <h1 className='text-3xl my-4'>Détails du bénéficiaire</h1>
-            <div className='flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4'>
-                <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>le nom prénom ou raison sociale</span>
-                    <span>{benef.nom}</span>
-                </div>
-                <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>IBAN</span>
-                    <span>{benef.iban}</span>
-                </div>
-                <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>Create Time</span>
-                    <span>{new Date(benef.createdAt).toString()}</span>
-                </div>
-                <div className='my-4'>
-                    <span className='text-xl mr-4 text-gray-500'>Last Update Time</span>
-                    <span>{new Date(benef.updatedAt).toString()}</span>
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h3 className="modal-title" id="profilModalLabel">Détails du bénéficiaire</h3>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        <div className="form-group">
+                            <label htmlFor="clientId">le nom prénom ou raison sociale : </label>
+                            <span id="clientId"> {benef.nom}</span>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="clientId">IBAN : </label>
+                            <span id="clientId">{benef.iban}</span>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="clientId">Date de création : </label>
+                            <span id="clientId">{new Date(benef.createdAt).toLocaleDateString("fr")}</span>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="iban">date dernier modification : </label>
+                            <span id="iban">{new Date(benef.updatedAt).toLocaleDateString("fr")}</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+
     );
 };
 
