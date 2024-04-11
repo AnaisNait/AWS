@@ -8,17 +8,13 @@ const benefSchema = new mongoose.Schema({
     iban: {
         type: String,
         required: true,
+        unique: true
     },
     utilisateur: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'User' // Référence au modèle User
     },
-    deleted: {
-        type: Boolean,
-        default: false
-    }
-    
 },
     {
         timestamps: true,
