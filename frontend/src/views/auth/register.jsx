@@ -1,104 +1,141 @@
-import axios from 'axios';
-import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { faClock, faPhone } from '@fortawesome/free-solid-svg-icons'; // Import des icônes
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import de FontAwesomeIcon pour utiliser des icônes
+import axios from 'axios'; // Import d'axios pour les requêtes HTTP
+import { useSnackbar } from 'notistack'; // Import de useSnackbar pour afficher des notifications
+import React, { useState } from "react"; // Import de useState pour gérer les états
+import { useNavigate } from 'react-router-dom'; // Import de useNavigate pour la navigation
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import '../../App.css'; // Import des styles CSS
 
-
+// Composant Register
 const Register = () => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [verifyEmail, setVerifyEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [verifyPassword, setVerifyPassword] = useState('');
-    const navigate = useNavigate();
-    const { enqueueSnackbar } = useSnackbar();
+  // Déclaration des états pour les champs du formulaire
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [verifyEmail, setVerifyEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [verifyPassword, setVerifyPassword] = useState('');
+  const navigate = useNavigate(); // pour la navigation
+  const { enqueueSnackbar } = useSnackbar(); // pour afficher des notifications
 
-    const handleRegister = () => {
-        const data = {
-            firstName,
-            lastName,
-            email,
-            verifyEmail,
-            password,
-            verifyPassword
-        };
-
-        axios
-            .post('http://localhost:5555/auth/register', data)
-            .then(() => {
-                enqueueSnackbar('Utilisateur créé avec succès', { variant: 'success' });
-                navigate('/login');
-            })
-            .catch((error) => {
-                enqueueSnackbar('Erreur', { variant: 'error' });
-                console.log(error);
-            });
+  // Fonction pour gérer l'inscription
+  const handleRegister = () => {
+    const data = {
+      firstName,
+      lastName,
+      email,
+      verifyEmail,
+      password,
+      verifyPassword
     };
-    return (
-        <div className='p-4'>
-            <h1 className='text-3xl my-4'>Ajouter utilisateur</h1>
-            <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Nom</label>
-                    <input
-                        type='text'
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2 w-full'
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Prénom</label>
-                    <input
-                        type='text'
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Email</label>
-                    <input
-                        type='email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Vérifier Email</label>
-                    <input
-                        type='email'
-                        value={verifyEmail}
-                        onChange={(e) => setVerifyEmail(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Mot de passe</label>
-                    <input
-                        type='password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
-                    />
-                </div>
-                <div className='my-4'>
-                    <label className='text-xl mr-4 text-gray-500'>Vérifier Mot de passe</label>
-                    <input
-                        type='password'
-                        value={verifyPassword}
-                        onChange={(e) => setVerifyPassword(e.target.value)}
-                        className='border-2 border-gray-500 px-4 py-2  w-full '
-                    />
-                </div>
-                <button className='p-2 bg-sky-300 m-8' onClick={handleRegister}>
-                    S'inscrire
-                </button>
-            </div>
+
+    // Requête HTTP pour l'inscription
+    axios
+      .post('http://localhost:5555/auth/register', data)
+      .then(() => {
+        // En cas de succès, afficher une notification et rediriger vers la page de connexion
+        enqueueSnackbar('Utilisateur créé avec succès', { variant: 'success' });
+        navigate('/login');
+      })
+      .catch((error) => {
+        // En cas d'erreur, afficher une notification et log l'erreur dans la console
+        enqueueSnackbar('Erreur', { variant: 'error' });
+        console.log(error);
+      });
+  };
+  return (
+
+    <div>
+      <div>
+        <div className="work-hours">
+          <FontAwesomeIcon icon={faClock} />
+          <span>Lundi/Vendredi 09:00-18:00</span>
+          <FontAwesomeIcon icon={faPhone} />
+          <span>01321009</span>
         </div>
-    );
+      </div>
+      <header className="navbar">
+        <div className="logo">
+          <span className="logo-text"><h2>E-Bank</h2></span>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="#">Accueil</a></li>
+            <li><a href="#">Découvrir</a></li>
+            <li><a href="#">Nos Services</a></li>
+            <li><a href="#">Nous Contacter</a></li>
+            <li className="nav-item"><a href="http://localhost:5173/login" className="filled-button">Déja Client</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <div className="page-heading header-text">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <h1>Nous rejoindre</h1>
+                <span>Remplissez le formulaire ci dessous pour nous rejoindre au plus vite !</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="vh-100">
+          <div className="container h-100 mt-3">
+            <div className="row d-flex justify-content-center align-items-center h-100">
+              <div className="col-lg-12 col-xl-11">
+                <div className="card text-black border-0">
+                  <div className="card-body p-md-5">
+                    <div className="row justify-content-center">
+                      <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                        <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Inscription</p>
+                        <div id="inscriptionForm" className="mx-1 mx-md-4">
+
+                          <div className="form-group">
+                            <label for="formInscriptionNomUsage">Nom</label>
+                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} id="formInscriptionNomUsage" className="form-control" />
+                          </div>
+                          <div className="form-group">
+                            <label for="formInscriptionPrenom">Prénom</label>
+                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} id="formInscriptionPrenom" className="form-control" name="prenom" />
+                          </div>
+                          <div className="form-group">
+                            <label for="formInscriptionCourriel">Email</label>
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="formInscriptionCourriel" className="form-control" name="email" />
+                          </div>
+                          <div className="form-group">
+                            <label for="formInscriptionCourriel2">Vérifier Email</label>
+                            <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                          </div>
+                          <div className="form-group">
+                            <label for="formInscriptionCourriel2">Mot de passe</label>
+                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                          </div>
+                          <div className="form-group">
+                            <label for="formInscriptionCourriel2">VérifierMot de passe</label>
+                            <input type='password' value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                          </div>
+                          <br></br>
+                          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                            <button onClick={handleRegister} className="btn"> S'inscrire</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <p>&copy; 2024 E-Bank. Tous droits réservés.</p>
+      </footer>
+    </div>
+  );
 }
 
 export default Register
