@@ -1,89 +1,65 @@
-import bcrypt from 'bcrypt';
-import jwt from "jsonwebtoken";
-import nodemailer from 'nodemailer';
-import validator from 'validator';
-import User from "../models/user.js";
+// Import des bibliothèques nécessaires
+import bcrypt from 'bcrypt'; // Pour le hachage de mot de passe
+import nodemailer from 'nodemailer'; // Pour l'envoi d'e-mails
+import validator from 'validator'; // Pour la validation des données
+import User from "../models/user.js"; // Import du modèle d'utilisateur
 
-export const afficherUser = async (request, response) => {
-    try {
-        // Extraire le token JWT de l'en-tête d'autorisation
-        const token = request.headers.authorization.split(' ')[1];
-        
-        // Vérifier et décoder le token JWT pour obtenir l'identifiant de l'utilisateur
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decodedToken.userId;
-        
-        // Rechercher l'utilisateur connecté en utilisant l'identifiant extrait du token JWT
-        const user = await User.findById(userId);
-
-        // Vérifier si l'utilisateur existe
-        if (!user) {
-            return response.status(404).json({ message: "L'utilisateur n'existe pas." });
-        }
-
-        // Retourner les données de l'utilisateur trouvé
-        response.status(200).json({
-            data: user
-        });
-    } catch (error) {
-        // En cas d'erreur, renvoyer un message d'erreur
-        response.status(500).json({ error: error.message });
-    }
-}
-
+// Fonction pour envoyer un e-mail de confirmation
 function sendEmail({ email, firstName, lastName }) {
     return new Promise((resolve, reject) => {
+        // Création d'un transporteur de messagerie avec les informations d'authentification
         var transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.email,
-                pass: process.env.password,
+                user: process.env.email, // Adresse e-mail de l'expéditeur
+                pass: process.env.password, // Mot de passe de l'expéditeur
             },
         });
 
+        // Configuration de l'e-mail à envoyer
         const mail_configs = {
-            from: `E-bank <${process.env.email}>`,
-            to: email,
-            subject: "Confirmation d'inscription à E-Bank",
-            text: `Bonjour ${firstName} ${lastName}, votre inscription à E-Bank a été confirmée.`,
-            html: `<p>Bonjour ${firstName} ${lastName}, votre inscription à E-Bank a été confirmée.</p>`,
+            from: `E-bank <${process.env.email}>`, // Adresse e-mail de l'expéditeur
+            to: email, // Adresse e-mail du destinataire
+            subject: "Confirmation d'inscription à E-Bank", // Sujet de l'e-mail
+            text: `Bonjour ${firstName} ${lastName}, votre inscription à E-Bank a été confirmée.`, // Corps de l'e-mail en texte brut
+            html: `<p>Bonjour ${firstName} ${lastName}, votre inscription à E-Bank a été confirmée.</p>`, // Corps de l'e-mail en HTML
         };
 
+        // Envoi de l'e-mail
         transporter.sendMail(mail_configs, function (error, info) {
             if (error) {
                 console.log(error);
-                return reject({ message: "An error has occurred" });
+                return reject({ message: "Une erreur s'est produite" }); // En cas d'erreur, rejeter la promesse avec un message d'erreur
             }
-            return resolve({ message: "Email sent successfully" });
+            return resolve({ message: "E-mail envoyé avec succès" }); // En cas de succès, résoudre la promesse avec un message de succès
         });
     });
 }
 
-
-export const register = async (request, response) => {
+// Contrôleur de l'inscription d'un nouvel utilisateur
+export const register = async (requête, réponse) => {
     try {
         // Extraire les données de la requête
-        const { firstName, lastName, email, password, verifyEmail, verifyPassword } = request.body;
+        const { firstName, lastName, email, password, verifyEmail, verifyPassword } = requête.body;
 
-        // // Vérifier que tous les champs requis sont fournis
+        // Vérifier que tous les champs requis sont fournis
         if (!firstName || !lastName || !email || !password || !verifyEmail || !verifyPassword) {
-            return response.status(400).json({ error: "Tous les champs doivent être remplis" });
+            return réponse.status(400).json({ erreur: "Tous les champs doivent être remplis" });
         }
-        // // Valider l'email
 
-        // // Vérifier que l'email et la vérification de l'email correspondent
+        // Vérifier que l'e-mail et la vérification de l'e-mail correspondent
         if (email !== verifyEmail) {
-            return response.status(400).json({ error: "L'email et la vérification de l'email ne correspondent pas" });
+            return réponse.status(400).json({ erreur: "L'e-mail et la vérification de l'e-mail ne correspondent pas" });
         }
 
         // Vérifier que le mot de passe est fort
         if (!validator.isStrongPassword(password)) {
-            return response.status(400).json({ error: "Le mot de passe doit contenir au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial" });
+            return réponse.status(400).json({ erreur: "Le mot de passe doit contenir au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial" });
         }
 
-        // // Vérifier que le mot de passe et la vérification du mot de passe correspondent
+        // Vérifier que le mot de passe et la vérification du mot de passe correspondent
         if (password !== verifyPassword) {
-            return response.status(400).json({ error: "Le mot de passe et la vérification du mot de passe ne correspondent pas" });
+            return réponse.status(400).json({ erreur: "Le mot de passe et la vérification du mot de passe ne correspondent pas" });
         }
 
         // Générer un sel pour renforcer le hachage
@@ -92,9 +68,9 @@ export const register = async (request, response) => {
         // Utiliser bcrypt pour hacher le mot de passe avec le sel généré
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Fonction pour générer un BIC
+        // Fonction pour générer un BIC (Bank Identifier Code)
         function generateBIC() {
-            const bankCode = "EBNK"; // code de banque
+            const bankCode = "EBNK"; // Code de la banque
             const countryCode = "FR"; // Code pays
 
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -105,22 +81,21 @@ export const register = async (request, response) => {
             // Générer 3 caractères aléatoires pour le code d'emplacement de la filiale
             const locationCode = Array.from({ length: 3 }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('');
 
-            // Concaténation de tous les composants pour former le BIC
+            // Concaténer tous les composants pour former le BIC
             return `${bankCode}${countryCode}${branchCode}${locationCode}`;
         }
         const bic = generateBIC();
         console.log(bic);
 
-        // Fonction pour générer un IBAN
+        // Fonction pour générer un IBAN (International Bank Account Number) unique
         function generateUniqueIban() {
-            const country_code = "FR"; //Code pays
+            const country_code = "FR"; // Code pays
             const control_key = "78"; // Clé de contrôle
-            const bank_code = "30001"; //Code banque
-            const branch_code = "05009"; //Code agence
-            const randomDigits = generateRandomDigits(11); // numéro de compte
-            const national_check_digit = "06"; //Chiffre d'indicatif national
+            const bank_code = "30001"; // Code banque
+            const branch_code = "05009"; // Code agence
+            const randomDigits = generateRandomDigits(11); // Numéro de compte aléatoire
+            const national_check_digit = "06"; // Chiffre d'indicatif national
             return `${country_code}${control_key}${bank_code}${branch_code}${randomDigits}${national_check_digit}`;
-
         }
 
         // Fonction pour générer des chiffres aléatoires d'une longueur donnée
@@ -131,6 +106,7 @@ export const register = async (request, response) => {
             }
             return randomDigits;
         }
+
         // Générer un IBAN unique
         const iban = generateUniqueIban();
         console.log(iban);
@@ -144,50 +120,18 @@ export const register = async (request, response) => {
             iban: iban,
             bic: bic
         });
+
         // Sauvegarder le nouvel utilisateur dans la base de données
         console.log(newUser);
         await newUser.save();
 
+        // Envoyer un e-mail de confirmation à l'utilisateur
         await sendEmail({ email, firstName, lastName });
 
-
         // Envoyer une réponse avec un code de statut 201 indiquant que la création du compte a réussi
-        response.status(201).json({ message: "Account created successfully" });
-    } catch (error) {
-        response.status(500).json({ error: error.message });
+        réponse.status(201).json({ message: "Compte créé avec succès" });
+    } catch (erreur) {
+        // En cas d'erreur, envoyer une réponse avec un code de statut 500 et un message d'erreur
+        réponse.status(500).json({ erreur: erreur.message });
     }
-};
-
-export const login = async (request, response) => {
-    try {
-        const { email, password } = request.body;
-        const user = await User.findOne({ email });
-
-        // Vérifier si l'utilisateur existe
-        if (!user) {
-            return response.status(400).json({ message: "L'email ou le mot de passe est incorrect." });
-        }
-
-        // Vérifier si le mot de passe est correct
-        const passwordMatch = await bcrypt.compare(password, user.password);
-        if (!passwordMatch) {
-            return response.status(400).json({ message: "L'email ou le mot de passe est incorrect." });
-        }
-
-        // Si l'utilisateur et le mot de passe sont corrects, générer un token JWT qui expire dans 10 minutes
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '30m' });
-
-        console.log(token)
-        // Envoyer une réponse avec un message de bienvenue, les détails de l'utilisateur et le token JWT
-        response.status(200).json({ message: `Bienvenue ${user.firstName}`, user, token });
-    } catch (error) {
-        // En cas d'erreur, envoyer une réponse avec un code de statut 500 et le message d'erreur
-        response.status(500).json({ error: "Une erreur est survenue lors de la connexion." });
-    }
-}
-
-export const logout = (request, response) => {
-    // Supprimer le token JWT du client en envoyant un cookie avec un token expiré ou aucun token
-    response.cookie('token', '', { expires: new Date(0) }); // Expiration immédiate du cookie
-    response.status(200).json({ message: "Déconnexion réussie" });
 };
