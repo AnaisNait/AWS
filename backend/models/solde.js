@@ -6,14 +6,10 @@ const SoldeSchema = new mongoose.Schema({
         default:null,
         required: true
     },
-    plafond: {
-        type: Number,
-        default:100,
-    },
     utilisateur: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User'
+        ref: 'User' // Référence au modèle User
     }
 },
     {
