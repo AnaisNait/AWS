@@ -5,27 +5,31 @@ const virementSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    devise: [{
-        type: String,
-        required: true
-    }],
-    date: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
     motif: {
         type: String,
         required: true
     },
-    
+    utilisateur: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Référence au modèle User
+        required: true
+    },
+    beneficiaire: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Benef', // Référence au modèle Benef
+        required: true
+    },
+    soldeUtilisateur: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Solde', // Référence au modèle Solde
+        required: true
+    },
 },
-
     {
         timestamps: true,
     }
 );
 
-const Virement = mongoose.model('Virement', virementSchema); // virements
+const Virement = mongoose.model('Virement', virementSchema);
 
 export default Virement;
