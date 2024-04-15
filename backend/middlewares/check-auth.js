@@ -5,8 +5,8 @@ const checkAuth = async (request, response, next) => {
     try {
         const token = request.headers.authorization;
         if (!token) {
-            console.error('No token provided, authorization denied');
-            return response.status(401).json({ error: 'No token provided, authorization denied' });
+            console.error('Aucun jeton fourni, autorisation refusée');
+            return response.status(401).json({ error: 'Aucun jeton fourni, autorisation refusée' });
         }
 
         // Extraire le token du header
@@ -15,27 +15,27 @@ const checkAuth = async (request, response, next) => {
         const tokenValue = tokenParts[1];
 
         if (tokenBearer !== 'Bearer' || !tokenValue) {
-            console.error('Invalid token format');
-            return response.status(401).json({ error: 'Invalid token format' });
+            console.error('Format de jeton invalide');
+            return response.status(401).json({ error: 'Format de jeton invalide' });
         }
 
         // Vérifier le token JWT
         const decodedToken = jwt.verify(tokenValue, process.env.JWT_SECRET);
-        console.log('Decoded token:', decodedToken);
+        console.log('Jeton déchiffré:', decodedToken);
 
         // Vérifier si l'utilisateur associé au token existe
         const user = await User.findById(decodedToken.userId);
         if (!user) {
-            console.error('User not found');
-            return response.status(401).json({ error: 'User not found' });
+            console.error('Utilisateur non trouvé');
+            return response.status(401).json({ error: 'Utilisateur non trouvé' });
         }
 
         // Si tout est bon, attacher l'utilisateur à l'objet request et passer au middleware suivant
         request.user = user;
         next();
     } catch (error) {
-        console.error('Error in checkAuth middleware:', error);
-        return response.status(401).json({ error: 'Invalid/Expired token' });
+        console.error('Erreur dans le middleware checkAuth:', error);
+        return response.status(401).json({ error: 'Jeton invalide/expiré' });
     }
 }
 
