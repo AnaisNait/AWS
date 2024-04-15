@@ -19,7 +19,6 @@ import Virement from "./views/virement/virement"; // Import du composant Viremen
 import AjouterSolde from "./views/solde/ajouterSolde"; // Import du composant AjouterSolde pour ajouter un solde
 import Solde from "./views/solde/solde"; // Import du composant Solde pour afficher le solde
 
-import AjouterRendezvous from "./views/rendezvous/ajouterRendezvous"; // Import du composant AjouterRendezvous pour ajouter un rendezvous
 
 const App = () => {
   return (
@@ -44,7 +43,6 @@ const App = () => {
       <Route path='/virement' element={<Virement />} /> {/* Route pour afficher la liste des virements */}
       <Route path='/ajoutervirement' element={<AjouterVirement />} /> {/* Route pour ajouter un virement */}
 
-      <Route path='/Ajouterrendezvous' element={<AjouterRendezvous />} /> {/* Route pour ajouter un virement */}
     </Routes>
   )
 }

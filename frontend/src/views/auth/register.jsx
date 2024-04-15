@@ -70,7 +70,7 @@ const Register = () => {
           </ul>
         </nav>
       </header>
-      <main>
+      <div>
         <div className="page-heading header-text">
           <div className="container">
             <div className="row">
@@ -94,28 +94,28 @@ const Register = () => {
                         <div id="inscriptionForm" className="mx-1 mx-md-4">
 
                           <div className="form-group">
-                            <label for="formInscriptionNomUsage">Nom</label>
-                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} id="formInscriptionNomUsage" className="form-control" />
+                            <label >Nom</label>
+                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}  className="form-control" />
                           </div>
                           <div className="form-group">
-                            <label for="formInscriptionPrenom">Prénom</label>
-                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} id="formInscriptionPrenom" className="form-control" name="prenom" />
+                            <label>Prénom</label>
+                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}  className="form-control" name="prenom" />
                           </div>
                           <div className="form-group">
-                            <label for="formInscriptionCourriel">Email</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="formInscriptionCourriel" className="form-control" name="email" />
+                            <label >Email</label>
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}  className="form-control" name="email" />
                           </div>
                           <div className="form-group">
-                            <label for="formInscriptionCourriel2">Vérifier Email</label>
-                            <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                            <label >Vérifier Email</label>
+                            <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)}  className="form-control" name="email2" />
                           </div>
                           <div className="form-group">
-                            <label for="formInscriptionCourriel2">Mot de passe</label>
-                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                            <label >Mot de passe</label>
+                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}  className="form-control" name="email2" />
                           </div>
                           <div className="form-group">
-                            <label for="formInscriptionCourriel2">VérifierMot de passe</label>
-                            <input type='password' value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)} id="formInscriptionCourriel2" className="form-control" name="email2" />
+                            <label >VérifierMot de passe</label>
+                            <input type='password' value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)}  className="form-control" name="email2" />
                           </div>
                           <br></br>
                           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
@@ -130,7 +130,7 @@ const Register = () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
       <footer>
         <p>&copy; 2024 E-Bank. Tous droits réservés.</p>
       </footer>

@@ -2,16 +2,24 @@ import cors from 'cors';
 import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import authRouter from "./routes/auths.js";
 import benefRouter from "./routes/benefs.js";
-import rendezvousRouter from './routes/rendezvous.js';
 import soldeRouter from "./routes/soldes.js";
-import { default as authRouter, default as userRouter } from "./routes/users.js";
+import userRouter from "./routes/users.js";
 import virementRouter from "./routes/virements.js";
 
 dotenv.config();
 
 const app = express();
 app.use(cors());
+// app.use(cors({
+//     origin: ["https://what-you-watched.vercel.app", "https://what-you-watched-backend.vercel.app", "http://localhost:5555", "http://localhost:5173"],
+//     methods: ["POST", "GET", "PATCH","PUT"],
+//     credentials: true,
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+//     preflightContinue: false,
+// }));
+
 app.use(express.json());
 
 // Route principale avec un message de bienvenue
@@ -36,8 +44,6 @@ app.use('/solde', soldeRouter);
 // Routes virement
 app.use('/virement', virementRouter);
 
-// Routes rendez-vous
-app.use('/rendezvous', rendezvousRouter);
 
 // Connexion à MongoDB
 mongoose

@@ -5,7 +5,6 @@ import { format } from "date-fns"; // Import de format pour formater la date
 import React, { useEffect, useState } from 'react'; // Import de React et useEffect pour les effets et useState pour gérer les états
 import AjouterBenef from '../beneficiaire/ajouterBenef'; // Import du composant AjouterBenef
 import Beneficiaire from '../beneficiaire/beneficiaire'; // Import du composant Beneficiaire
-import AjouterRendezvous from '../rendezvous/ajouterRendezvous';
 import Logout from '../user/logout'; // Import du composant Logout
 import AfficherUser from '../user/user'; // Import du composant AfficherUser
 import AjouterVirement from '../virement/ajouterVirement'; // Import du composant AjouterVirement
@@ -59,8 +58,6 @@ const Solde = () => {
         return <AjouterVirement />;
       case 'transactions':
         return <Virement />;
-      case 'conseiller':
-      return <AjouterRendezvous/>
 
       case 'solde':
         return (
@@ -127,7 +124,6 @@ const Solde = () => {
             <button onClick={() => handleOptionClick('ajouterBenef')}>Ajouter un bénéficiaire</button>
             <button onClick={() => handleOptionClick('transactions')}>Listes des virements</button>
             <button onClick={() => handleOptionClick('virement')}>Effectuer un nouveau virement</button>
-            <button onClick={() => handleOptionClick('conseiller')}>Prendre un rendez-vous</button>
           </div>
           <div className="content">
             {renderContent()} {/* Affichage du contenu en fonction de l'option sélectionnée */}
