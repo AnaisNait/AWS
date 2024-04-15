@@ -20,6 +20,12 @@ const Register = () => {
   const navigate = useNavigate(); // pour la navigation
   const { enqueueSnackbar } = useSnackbar(); // pour afficher des notifications
 
+  // Fonction pour vérifier si le mot de passe est fort
+  const isStrongPassword = (password) => {
+    // Définissez ici vos critères de mot de passe fort
+    const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return strongPasswordRegex.test(password);
+  };
   // Fonction pour gérer l'inscription
   const handleRegister = () => {
     const data = {
@@ -30,6 +36,27 @@ const Register = () => {
       password,
       verifyPassword
     };
+
+    if (!firstName || !lastName || !email || !verifyEmail || !password || !verifyPassword) {
+      enqueueSnackbar("Tous les champs doivent être remplis", { variant: "error" });
+      return;
+    }
+
+    if (email !== verifyEmail) {
+      enqueueSnackbar("L'e-mail et la vérification de l'e-mail ne correspondent pas", { variant: "error" });
+      return;
+    }
+
+    // Vérifier que le mot de passe est fort
+    if (!isStrongPassword(password)) {
+      enqueueSnackbar("Le mot de passe doit contenir au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial", { variant: "error" });
+      return;
+    }
+
+    if (password !== verifyPassword) {
+      enqueueSnackbar("Le mot de passe et la vérification du mot de passe ne correspondent pas", { variant: "error" });
+      return;
+    }
 
     // Requête HTTP pour l'inscription
     axios
@@ -95,27 +122,27 @@ const Register = () => {
 
                           <div className="form-group">
                             <label >Nom</label>
-                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}  className="form-control" />
+                            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="form-control" />
                           </div>
                           <div className="form-group">
                             <label>Prénom</label>
-                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}  className="form-control" name="prenom" />
+                            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="form-control" name="prenom" />
                           </div>
                           <div className="form-group">
                             <label >Email</label>
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}  className="form-control" name="email" />
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="form-control" name="email" />
                           </div>
                           <div className="form-group">
                             <label >Vérifier Email</label>
-                            <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)}  className="form-control" name="email2" />
+                            <input type="email" value={verifyEmail} onChange={(e) => setVerifyEmail(e.target.value)} className="form-control" name="email2" />
                           </div>
                           <div className="form-group">
                             <label >Mot de passe</label>
-                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}  className="form-control" name="email2" />
+                            <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} className="form-control" name="email2" />
                           </div>
                           <div className="form-group">
-                            <label >VérifierMot de passe</label>
-                            <input type='password' value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)}  className="form-control" name="email2" />
+                            <label >Vérifier Mot de passe</label>
+                            <input type='password' value={verifyPassword} onChange={(e) => setVerifyPassword(e.target.value)} className="form-control" name="email2" />
                           </div>
                           <br></br>
                           <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
