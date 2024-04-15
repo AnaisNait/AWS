@@ -22,6 +22,11 @@ const Login = () => {
             password
         };
 
+        if (!email || !password) {
+            enqueueSnackbar("Tous les champs doivent être remplis", { variant: "error" });
+            return;
+        }
+
         axios
             .post('http://localhost:5555/user/login', data) // Requête POST pour se connecter
             .then((response) => {
@@ -31,7 +36,7 @@ const Login = () => {
                 navigate('/solde'); // Redirection vers la page de solde après connexion
             })
             .catch((error) => {
-                enqueueSnackbar('Erreur lors de la connexion', { variant: 'error' }); // Affichage d'un message d'erreur
+                enqueueSnackbar('email ou mot de passe incorrect', { variant: 'error' }); // Affichage d'un message d'erreur
                 console.log(error); // Affichage de l'erreur dans la console
             });
     };
