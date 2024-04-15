@@ -61,16 +61,7 @@ export const register = async (requête, réponse) => {
         if (password !== verifyPassword) {
             return réponse.status(400).json({ erreur: "Le mot de passe et la vérification du mot de passe ne correspondent pas" });
         }
-        // Vérifier l'unicité de l'IBAN et du BIC
-        const existingUserWithIBAN = await User.findOne({ iban: iban });
-        if (existingUserWithIBAN) {
-            return réponse.status(400).json({ erreur: "Cet IBAN est déjà utilisé par un autre utilisateur" });
-        }
-
-        const existingUserWithBIC = await User.findOne({ bic: bic });
-        if (existingUserWithBIC) {
-            return réponse.status(400).json({ erreur: "Ce BIC est déjà utilisé par un autre utilisateur" });
-        }
+    
 
         // Générer un sel pour renforcer le hachage
         const salt = await bcrypt.genSalt(10);
@@ -120,6 +111,17 @@ export const register = async (requête, réponse) => {
         // Générer un IBAN unique
         const iban = generateUniqueIban();
         console.log(iban);
+
+            // Vérifier l'unicité de l'IBAN et du BIC
+            const existingUserWithIBAN = await User.findOne({ iban: iban });
+            if (existingUserWithIBAN) {
+                return réponse.status(400).json({ erreur: "Cet IBAN est déjà utilisé par un autre utilisateur" });
+            }
+    
+            const existingUserWithBIC = await User.findOne({ bic: bic });
+            if (existingUserWithBIC) {
+                return réponse.status(400).json({ erreur: "Ce BIC est déjà utilisé par un autre utilisateur" });
+            }
 
         // Créer un nouvel utilisateur avec les données fournies dans le corps de la requête
         const newUser = new User({
