@@ -19,6 +19,12 @@ const AjouterBenef = ({ destination = 'ajouterBenef' }) => {
       nom,
       iban
     };
+    
+    if (!nom || !iban) {
+      enqueueSnackbar("Tous les champs doivent être remplis", { variant: "error" });
+      return;
+    }
+
     if (token) {
       // Requête HTTP pour ajouter un bénéficiaire
       axios
