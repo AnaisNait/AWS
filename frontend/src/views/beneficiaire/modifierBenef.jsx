@@ -40,6 +40,12 @@ const ModifierBenef = () => {
       nom,
       iban,
     };
+
+    if (!nom || !iban) {
+      enqueueSnackbar("Tous les champs doivent être remplis", { variant: "error" });
+      return;
+    }
+    
     if (token) { // Vérifier si le token existe avant d'envoyer la requête
       axios
         .put(`http://localhost:5555/beneficiaire/modifierBenef/${id}`, data, { // Requête PUT pour modifier le bénéficiaire avec l'identifiant spécifié
