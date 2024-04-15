@@ -21,11 +21,11 @@ const userSchema = new mongoose.Schema({
     },
     iban: {
         type: String,
-        required: true,
+        unique: true,
     },
     bic: {
         type: String,
-        required: true,
+        unique: true,
     },
 
 },
