@@ -5,17 +5,18 @@ import { format } from "date-fns"; // Import de format pour formater la date
 import React, { useEffect, useState } from 'react'; // Import de React et useEffect pour les effets et useState pour gérer les états
 import AjouterBenef from '../beneficiaire/ajouterBenef'; // Import du composant AjouterBenef
 import Beneficiaire from '../beneficiaire/beneficiaire'; // Import du composant Beneficiaire
+import RensezVous from '../rendezvous/rendezvoux';
 import Logout from '../user/logout'; // Import du composant Logout
 import AfficherUser from '../user/user'; // Import du composant AfficherUser
 import AjouterVirement from '../virement/ajouterVirement'; // Import du composant AjouterVirement
 import Virement from '../virement/virement'; // Import du composant Virement
 import AjouterSolde from './ajouterSolde'; // Import du composant AjouterSolde
-
 // Composant Solde
 const Solde = () => {
   const [soldes, setSolde] = useState([]); // État pour stocker les soldes
   const [date, setDate] = useState(''); // État pour stocker la date
   const token = localStorage.getItem('token'); // Récupérer le token JWT du stockage local
+
 
   useEffect(() => {
     // Obtenez la date actuelle au format souhaité (par exemple, 'dd/MM/yyyy')
@@ -58,6 +59,9 @@ const Solde = () => {
         return <AjouterVirement />;
       case 'transactions':
         return <Virement />;
+
+      case 'rdv':
+        return <RensezVous/>
 
       case 'solde':
         return (
@@ -124,6 +128,8 @@ const Solde = () => {
             <button onClick={() => handleOptionClick('ajouterBenef')}>Ajouter un bénéficiaire</button>
             <button onClick={() => handleOptionClick('transactions')}>Listes des virements</button>
             <button onClick={() => handleOptionClick('virement')}>Effectuer un nouveau virement</button>
+            <button onClick={() => handleOptionClick('rdv')}>Prendre un rendez-vous avec mon conseiller</button>
+
           </div>
           <div className="content">
             {renderContent()} {/* Affichage du contenu en fonction de l'option sélectionnée */}
