@@ -37,29 +37,29 @@ function sendEmail({ email, firstName, lastName }) {
 }
 
 // Contrôleur de l'inscription d'un nouvel utilisateur
-export const register = async (requête, réponse) => {
+export const register = async (request, response) => {
     try {
-        // Extraire les données de la requête
-        const { firstName, lastName, email, password, verifyEmail, verifyPassword } = requête.body;
+        // Extraire les données de la request
+        const { firstName, lastName, email, password, verifyEmail, verifyPassword } = request.body;
 
         // Vérifier que tous les champs requis sont fournis
         if (!firstName || !lastName || !email || !password || !verifyEmail || !verifyPassword) {
-            return réponse.status(400).json({ erreur: "Tous les champs doivent être remplis" });
+            return response.status(400).json({ erreur: "Tous les champs doivent être remplis" });
         }
 
         // Vérifier que l'e-mail et la vérification de l'e-mail correspondent
         if (email !== verifyEmail) {
-            return réponse.status(400).json({ erreur: "L'e-mail et la vérification de l'e-mail ne correspondent pas" });
+            return response.status(400).json({ erreur: "L'e-mail et la vérification de l'e-mail ne correspondent pas" });
         }
 
         // Vérifier que le mot de passe est fort
         if (!validator.isStrongPassword(password)) {
-            return réponse.status(400).json({ erreur: "Le mot de passe doit contenir au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial" });
+            return response.status(400).json({ erreur: "Le mot de passe doit contenir au moins 8 caractères, y compris au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial" });
         }
 
         // Vérifier que le mot de passe et la vérification du mot de passe correspondent
         if (password !== verifyPassword) {
-            return réponse.status(400).json({ erreur: "Le mot de passe et la vérification du mot de passe ne correspondent pas" });
+            return response.status(400).json({ erreur: "Le mot de passe et la vérification du mot de passe ne correspondent pas" });
         }
     
 
@@ -115,15 +115,15 @@ export const register = async (requête, réponse) => {
             // Vérifier l'unicité de l'IBAN et du BIC
             const existingUserWithIBAN = await User.findOne({ iban: iban });
             if (existingUserWithIBAN) {
-                return réponse.status(400).json({ erreur: "Cet IBAN est déjà utilisé par un autre utilisateur" });
+                return response.status(400).json({ erreur: "Cet IBAN est déjà utilisé par un autre utilisateur" });
             }
     
             const existingUserWithBIC = await User.findOne({ bic: bic });
             if (existingUserWithBIC) {
-                return réponse.status(400).json({ erreur: "Ce BIC est déjà utilisé par un autre utilisateur" });
+                return response.status(400).json({ erreur: "Ce BIC est déjà utilisé par un autre utilisateur" });
             }
 
-        // Créer un nouvel utilisateur avec les données fournies dans le corps de la requête
+        // Créer un nouvel utilisateur avec les données fournies dans le corps de la request
         const newUser = new User({
             firstName,
             lastName,
@@ -140,10 +140,10 @@ export const register = async (requête, réponse) => {
         // Envoyer un e-mail de confirmation à l'utilisateur
         await sendEmail({ email, firstName, lastName });
 
-        // Envoyer une réponse avec un code de statut 201 indiquant que la création du compte a réussi
-        réponse.status(201).json({ message: "Compte créé avec succès" });
+        // Envoyer une response avec un code de statut 201 indiquant que la création du compte a réussi
+        response.status(201).json({ message: "Compte créé avec succès" });
     } catch (erreur) {
-        // En cas d'erreur, envoyer une réponse avec un code de statut 500 et un message d'erreur
-        réponse.status(500).json({ erreur: erreur.message });
+        // En cas d'erreur, envoyer une response avec un code de statut 500 et un message d'erreur
+        response.status(500).json({ erreur: erreur.message });
     }
 };

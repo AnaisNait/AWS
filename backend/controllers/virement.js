@@ -5,10 +5,10 @@ import User from "../models/user.js";
 import Virement from "../models/virement.js";
 
 // Afficher la liste des bénéficiaires associés à l'utilisateur connecté
-export const afficherBenefListe = async (requete, réponse) => {
+export const afficherBenefListe = async (request, response) => {
     try {
         // Extraire le token JWT de l'en-tête d'autorisation
-        const token = requete.headers.authorization.split(' ')[1];
+        const token = request.headers.authorization.split(' ')[1];
         // Décoder le token JWT pour obtenir l'identifiant de l'utilisateur
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decodedToken.userId;
@@ -24,45 +24,45 @@ export const afficherBenefListe = async (requete, réponse) => {
         }));
 
         // Retourner la liste des bénéficiaires formatée
-        réponse.status(200).json({
+        response.status(200).json({
             count: benefDropdown.length,
             data: benefDropdown
         });
     } catch (error) {
         // En cas d'erreur, renvoyer un message d'erreur
-        réponse.status(500).json({ error: "Une erreur est survenue lors de la récupération de la liste des bénéficiaires." });
+        response.status(500).json({ error: "Une erreur est survenue lors de la récupération de la liste des bénéficiaires." });
     }
 };
 
 // Ajouter un virement
-export const ajouterVirement = async function (requete, réponse) {
+export const ajouterVirement = async function (request, response) {
     try {
-        const { montant, motif, beneficiaireId } = requete.body;
-        const token = requete.headers.authorization.split(' ')[1];
+        const { montant, motif, beneficiaireId } = request.body;
+        const token = request.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decodedToken.userId;
 
         // Rechercher l'utilisateur effectuant le virement
         const utilisateur = await User.findById(userId);
         if (!utilisateur) {
-            return réponse.status(404).json({ message: 'Utilisateur non trouvé' });
+            return response.status(404).json({ message: 'Utilisateur non trouvé' });
         }
 
         // Rechercher le bénéficiaire du virement
         const beneficiaire = await Benef.findById(beneficiaireId);
         if (!beneficiaire) {
-            return réponse.status(404).json({ message: 'Bénéficiaire non trouvé' });
+            return response.status(404).json({ message: 'Bénéficiaire non trouvé' });
         }
 
         // Rechercher le solde de l'utilisateur effectuant le virement
         const solde = await Solde.findOne({ utilisateur: userId });
         if (!solde) {
-            return réponse.status(404).json({ message: 'Solde non trouvé' });
+            return response.status(404).json({ message: 'Solde non trouvé' });
         }
 
         // Vérifier si le solde de l'utilisateur est suffisant pour le virement
         if (solde.montant < montant) {
-            return réponse.status(400).json({ message: 'Solde insuffisant pour effectuer ce virement' });
+            return response.status(400).json({ message: 'Solde insuffisant pour effectuer ce virement' });
         }
 
         // Calculer le nouveau solde après le virement
@@ -81,20 +81,20 @@ export const ajouterVirement = async function (requete, réponse) {
         });
         await nouveauVirement.save();
         
-        // Envoyer une réponse avec un message de succès
-        réponse.status(201).json({ message: "Virement créé avec succès" });
+        // Envoyer une response avec un message de succès
+        response.status(201).json({ message: "Virement créé avec succès" });
 
     } catch (error) {
         // En cas d'erreur, renvoyer un message d'erreur
-        réponse.status(500).json({ message: "Une erreur est survenue lors de la création du virement." });
+        response.status(500).json({ message: "Une erreur est survenue lors de la création du virement." });
     }
 };
 
 // Afficher les virements effectués par l'utilisateur connecté
-export const afficherVirement = async (requete, réponse) => {
+export const afficherVirement = async (request, response) => {
     try {
         // Extraire le token JWT de l'en-tête d'autorisation
-        const token = requete.headers.authorization.split(' ')[1];
+        const token = request.headers.authorization.split(' ')[1];
         // Décoder le token JWT pour obtenir l'identifiant de l'utilisateur
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         const userId = decodedToken.userId;
@@ -103,12 +103,12 @@ export const afficherVirement = async (requete, réponse) => {
         const virements = await Virement.find({ utilisateur: userId }).populate('utilisateur');
 
         // Retourner les virements trouvés
-        réponse.status(200).json({
+        response.status(200).json({
             count: virements.length,
             data: virements
         });
     } catch (error) {
         // En cas d'erreur, renvoyer un message d'erreur
-        réponse.status(500).json({ error: "Une erreur est survenue lors de la récupération des virements." });
+        response.status(500).json({ error: "Une erreur est survenue lors de la récupération des virements." });
     }
 }
