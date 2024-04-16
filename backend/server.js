@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import authRouter from "./routes/auths.js";
 import benefRouter from "./routes/benefs.js";
+import rendezVousRouter from './routes/rendezVouss.js';
 import soldeRouter from "./routes/soldes.js";
 import userRouter from "./routes/users.js";
 import virementRouter from "./routes/virements.js";
@@ -43,6 +44,9 @@ app.use('/solde', soldeRouter);
 
 // Routes virement
 app.use('/virement', virementRouter);
+
+// Routes rendez vous
+app.use('/rendezVous', rendezVousRouter);
 
 
 // Connexion à MongoDB
